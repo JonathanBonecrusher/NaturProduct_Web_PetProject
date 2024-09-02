@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_additional %}
+<link rel="stylesheet" href="{% static 'css/history.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="pad-base container-fluid">
+<div class="row">
+  <div class="d-none d-lg-block col-lg-3">
+  </div>
+  <div class="col-12 col-lg-6 bg-success-subtle m-3 p-2" style="border-radius: 10px;">
+    <h2>История заказов</h2>
+    <div class="orders container bg-warning-subtle pb-2 pt-2" style="border-radius: 10px;">
+      {% if order_products %}
+      {% for order, products in order_products.items %}
+      <div class="pt-2">
+        <h4>Заказ №{{order.id}}</h4>
+        <h6>Дата: {{order.orderDate}}</h6>
+        <h6>Общая стоимость: {{order.orderCost}}</h6>
+        <h6>Адрес доставки: {{order.orderAddress}}</h6>
+        <h6>Стаус заказа: {{order.orderStatus}}</h6>
+        <h4>Список продуктов:</h4>
+        <div class="order container bg-success-subtle pb-2 pt-2" style="border-radius: 10px;">
+          {% for orderProd, product in products.items %}
+          <div class="row prod">
+            <div class="col-3">
+              <img class="imgSmall me-0" src="{{ product.productImg.url }}">
+            </div>
+            <div class="col-5">
+              <h6 class="text-center prod-place">{{ product.productName }}</h6>
+            </div>
+            <div class="col-2">
+              <p class="buttons-place">{{ product.productCost }} руб.</p>
+            </div>
+            <div class="col-2">
+              <p class="buttons-place">{{ orderProd.ProductAmount }} шт.</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p>Ваша история заказов пуста <br> <a class="btn btn-success" href="{% url 'home' %}">На главную</a></p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="d-none d-lg-block col-lg-3">
+  </div>
+</div>
+  </div>
+{% endblock %}

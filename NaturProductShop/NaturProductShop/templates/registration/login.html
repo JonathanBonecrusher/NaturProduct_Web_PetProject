@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Вход {% endblock %}
+{% block content %}
+
+<div class="container form mt-5 border border-5 border-success-subtle rounded-3 p-2" style="width: 20rem;">
+    <h2>Вход в аккаунт</h2>
+    <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success me-0">Войти</button>
+</form>
+</div>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,38 @@
+.back-color {
+    background-color: #c5ebd0;
+}
+
+.imgMedium {
+    width: 580px;
+    height: 580px;
+    background: #c5ebd0;
+    border-radius: 5px;
+    padding: 2%;
+}
+
+.conteiner-prod {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    
+}
+
+.prod-place {
+    padding: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.buttons-place {
+    padding: 10px;
+}
+
+.page-footer.fixed-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}

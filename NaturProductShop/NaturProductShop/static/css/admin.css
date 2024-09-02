@@ -1,0 +1,28 @@
+#header, .module caption{
+    background: #7bba8d;
+}
+
+#branding h1 a:link, #branding h1 a:visited {
+    color: white;
+}
+
+.theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
+    fill: white;
+    color: #7bba8d;
+}
+div.breadcrumbs {
+    background: #99c7a6;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #7bba8d;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #7bba8d;
+}
+
+a:link, a:visited {
+    color: #5a8c68;
+    text-decoration: none;
+}

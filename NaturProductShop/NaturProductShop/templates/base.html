@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% load static %}
+  {% block css_additional %} {% endblock %}
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+  <header id="header" class="back-color">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a href="{% url 'home' %}"><img src="{% static 'img/logo2.png' %}"></a>
+          <button class="navbar-toggler" type="button" data-toggler="collapse" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse d-flex navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                <li class="navbar-item">
+                    <a href="{% url 'history' user %}" class="nav-link px-2 text-secondary">История</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Поддержка
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'request' user %}">Отправить запрос</a></li>
+                        <li><a class="dropdown-item" href="{% url 'your_request' user %}">Ваши запросы</a></li>
+                        {% if user.is_staff %}
+                        <li><a class="dropdown-item" href="{% url 'users_requests' %}">Запросы пользователей</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                {% endif %}
+                <li class="navbar-item">
+                    <a href="{% url 'cart' %}" class="nav-link px-2 text-secondary">Корзина</a>
+                </li>
+                {% if user.is_staff %}
+                <li class="navbar-item">
+                    <a href="/admin" class="nav-link px-2 text-secondary">Панель управления</a>
+                </li>
+                {% endif %}
+            </ul>
+              <form action="{% url 'search' %}" class="d-flex me-5" method="get">
+                  <input name="q" type="text" class="form-control me-1" placeholder="Введите запрос..." aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Поиск</button>
+              </form>
+              {% if user.is_authenticated %}
+              <a href="#" class="nav-link px-2 text-secondary">Пользователь: {{ user.username }}</a>
+              <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-secondary px-2">Выйти</button>
+              </form>
+              {% else %}
+              <a href="{% url 'login' %}" class="btn btn-outline-secondary px-2">Войти</a>
+              <a href="{% url 'signup' %}" class="btn btn-outline-success px-2">Зарегистрироваться</a>
+              {% endif %}
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  {% block content %}
+  {% endblock %}
+  <footer id="footer" class=" container-fluid page-footer d-flex flex-wrap justify-content-between align-items-center pt-2 pb-2 border-top back-color">
+      <p class="col-md-3 mb-0 text-muted">© НатурПродукт 2024</p>
+      <a  class="col-md-6 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="{% url 'home' %}"><img src="{% static 'img/logo2.png' %}"></a>
+      <ul class="nav navbar-nav col-md-3 flex-row text-right">
+          {% if user.is_authenticated %}
+          <li class="navbar-item">
+              <a href="{% url 'history' user %}" class="nav-link px-2 text-secondary">История</a>
+          </li>
+          <li class="nav-item dropup">
+              <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDarkDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Поддержка
+              </a>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink2">
+                  <li><a class="dropdown-item" href="{% url 'request' user %}">Отправить запрос</a></li>
+                  <li><a class="dropdown-item" href="{% url 'your_request' user %}">Ваши запросы</a></li>
+                  <li><a class="dropdown-item" href="{% url 'users_requests' %}">Запросы пользователей</a></li>
+              </ul>
+          </li>
+          {% endif %}
+          <li class="navbar-item">
+              <a href="{% url 'cart' %}" class="nav-link px-2 text-secondary">Корзина</a>
+          </li>
+      </ul>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        if( $(document).height() <= $(window).height() ){
+            $(".page-footer").addClass("fixed-bottom");
+        }
+    </script>
+</body>
+
+</html>

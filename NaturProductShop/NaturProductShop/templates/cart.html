@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block css_additional %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/cart.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="pad-base container-fluid">
+<div class="row">
+        <div class="d-none d-lg-block col-lg-3">
+        </div>
+        <div class="col-12 col-lg-6 container m-3 p-2 bg-success-subtle " style="border-radius: 10px; padding: 0;">
+            <div class="cart">
+                {% if cart %}
+                {% for product in cart %}
+                <div class="prod-cart">
+                    <div class="row prod bg-warning-subtle p-3 m-3" style="border-radius: 10px;">
+                        <div class="col-3">
+                            <img src="{{ product.img }}" class="img-thumbnail">
+                        </div>
+                        <div class="col-4">
+                            <h5 class="prod-place text-center">{{ product.name }}</h5>
+                        </div>
+                        <div class="col-2">
+                            <p class="buttons-place text-center">{{ product.price }} руб.</p>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center buttons-prod-buttons d-inline-flex bg-success-subtle p-2" style="border-radius: 10px;">
+                                <a class="buttons-place btn btn-outline-secondary" href="{% url 'cart_add' product.pk %}">+</a>
+                                <span id="selected-num" class="numb-style m-1">{{ product.quantity }}</span>
+                                <a class="buttons-place btn btn-outline-secondary" href="{% url 'cart_remove' product.pk %}">-</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% if cart %}
+                <div>
+                    <div class="form container bg-warning-subtle border border-3 border-secondary rounded text-center p-2 w-50">
+                        <form action="{% url 'order_create' user %}" method="post" class=" order-form">
+                         {{ form|crispy }} {{ form.media }}
+                         {% csrf_token %}
+                            <div class="total-cost bg-warning-subtle p-2 mt-3 mb-3" style="border-radius: 10px;">
+                                <h5>Итого: {{ cart.get_total_price }} руб.</h5>
+                            </div>
+                            <p><input type="submit" class="btn btn-success" value="Оформить заказ"></p>
+                        </form>
+                    </div>
+                    <div class="other">
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary m-2" style="text-decoration: none;">Продолжить выбор товаров</a>
+                        <br>
+                        <a href="{% url 'clear'%}" class="btn btn-outline-secondary m-2" style="text-decoration: none;">Отчистить корзину</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="p-2">
+                    <h3>Ваша корзина пуста</h3>
+                    <a href="{% url 'home' %}" class="button light">
+                         <button class="btn btn-success">Продолжить выбор товаров</button>
+                    </a>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div>
+                    <h3>Вы не авторизированы</h3>
+                    <span>Перейтиде на страницу авторизации и войдите в свой аккаунт</span>
+                    <br>
+                    <a href="{% url 'login' %}">
+                        <button class="btn btn-success">Войти в аккаунт</button>
+                    </a>
+                    <br>
+                    <span>Если у вас нет своей учётной записи, то перейдите на страницу регистрации и создайте аккаунт</span>
+                    <br>
+                    <a href="{% url 'signup' %}">
+                        <button class="btn btn-success">Регистрация</button>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="d-none d-lg-block col-lg-3">
+        </div>
+    </div>
+</div>
+{% endblock %}

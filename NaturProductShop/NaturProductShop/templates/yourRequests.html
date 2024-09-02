@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_additional %}
+<link rel="stylesheet" href="{% static 'css/history.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="pad-base container-fluid">
+<div class="row">
+  <div class="d-none d-lg-block col-lg-3">
+  </div>
+  <div class="col-12 col-lg-6 bg-success-subtle m-3 p-2" style="border-radius: 10px;">
+    <h2>Ваши запросы</h2>
+    <div class="orders container bg-warning-subtle pb-2 pt-2" style="border-radius: 10px;">
+      {% if requests %}
+      {% for req in requests%}
+      <div class="pt-2">
+        <h4>Запрос №{{req.id}}</h4>
+        <h5>Тема: {{req.title}}</h5>
+        <h5>Текст запроса:</h5>
+        <div class="container bg-success-subtle mt-3 mb-2 pt-1" style="border-radius: 10px;">
+          <p>{{req.requestText}}</p>
+        </div>
+        <h5>Ответ менеджера:</h5>
+        <div class="container bg-success-subtle mt-3 mb-2 pt-1" style="border-radius: 10px;">
+          <p>{{req.answerText}}</p>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="container bg-success-subtle pb-2 pt-2" style="border-radius: 10px;">
+        <p>У вас пока не было запросов.<br><a href="{% url 'request' user %}" class="btn btn-success">Создать запрос</a></p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="d-none d-lg-block col-lg-3">
+  </div>
+</div>
+</div>
+{% endblock %}

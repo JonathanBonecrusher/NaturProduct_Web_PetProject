@@ -1,0 +1,14 @@
+.imgSmall {
+    width: 80px;
+    height: 80px;
+    background: #c5ebd0;
+    border-radius: 5px;
+    padding: 2%;
+}
+
+.prod{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}

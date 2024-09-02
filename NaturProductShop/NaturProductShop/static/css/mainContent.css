@@ -1,0 +1,85 @@
+.imgSmall{
+    width: 180px;
+    height: 180px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    padding: 2%;
+}
+
+.container {
+    padding: 10px;
+    display: flex;
+}
+
+.cat_plate{
+    margin: 10px;
+    padding: auto;
+    height: 40em;
+    width: 40em;
+    display: inline-block;
+}
+
+.buttons-prod{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.buttons-prod-buttons{
+    justify-content: center
+}
+
+.cost{
+    align-items: end;
+}
+
+.fix-pos{
+    position: sticky;
+    top: 1em;
+}
+.pad-base {
+    margin: 10px;
+}
+
+.hide{
+    visibility: hidden;
+}
+
+.basket{
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.prod-basket{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.prod{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3.5em;
+    width: 100%;
+    margin: 0 0 7px 0;
+}
+
+.imgLittle{
+    width: 5e,;
+    height: 5em;
+    background: #f0f0f0;
+    border-radius: 5px;
+    padding: 2%;
+}
+.items{
+    display: flex;
+    flex-direction: column;
+}
+.item{
+    margin: 5px;
+}
+

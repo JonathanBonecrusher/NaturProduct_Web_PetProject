@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_additional %}
+<link rel="stylesheet" href="{% static 'css/mainContent.css' %}" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="pad-base container-fluid text-center">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2">
+            <div class="fix-pos d-flex flex-column categories">
+                <h3>Категории товаров</h3>
+                <a href="#">
+                    <ul class="w-75 list-group">
+                        {% for cat in category %}
+                        <li class="list-group-item"><a class="nav-link px-2 text-secondary"
+                                href="/product/search/?q={{ cat }}">{{ cat }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="catalog">
+                <h2>Результат поиска</h2>
+                <h3>{{ result }}</h3>
+                <div class="container d-flex align-items-stretch flex-wrap bg-success-subtle">
+                    {% for prod in page_obj %}
+                    <div class="card d-flex m-2 bg-warning-subtle p-1" style="width: 14rem;">
+                        <img src="{{ prod.productImg.url }}" class="card-img-top img-thumbnail"
+                            alt="{{ prod.productName }}">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'productPage' prod.pk %}" class="prod-link link-success" style="text-decoration: none;">{{ prod.productName }}</a>
+                            </h5>
+                            <p class="card-text">{{ prod.productDescription}}</p>
+                            <span class="cost">{{ prod.productCost }} руб.</span>
+                            <a href="{% url 'cart_add' prod.pk %}" class="btn btn-success mt-2">
+                                <span class="small">Добавить в корзину</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination d-flex">
+                        <span class="step-links text-center">
+                            {% if page_obj.has_previous %}
+                            <a class="btn btn-success small"
+                                href="?page=1{% if request.GET.q %}&q={{request.GET.q }}{% endif %}">Первая</a>
+                            <a class="btn btn-success small"
+                                href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{request.GET.q }}{% endif %}">Прошлая</a>
+                            {% endif %}
+
+                            {% for p in page_obj.paginator.page_range %}
+                            <a class="btn btn-success small"
+                                href="?page={{ p }}{% if request.GET.q %}&q={{request.GET.q }}{% endif %}">{{ p }}</a>
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                            <a class="btn btn-success small"
+                                href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{request.GET.q }}{% endif %}">Следующая</a>
+                            <a class="btn btn-success small"
+                                href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{request.GET.q }}{% endif %}">Последняя</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            </div>
+        </div>
+        <div class="d-none d-lg-block col-lg-4">
+                <div class="container bg-success-subtle fix-pos basket" style="border-radius: 10px;">
+                    <aside>
+                        <div>
+                            <h2>Корзина</h2>
+                            <div id="cart_place">
+                                {% if cart %}
+                                <div class="prod-basket">
+                                    <div id="prod-items" class="container bg-warning-subtle items"
+                                        style="border-radius: 10px;">
+                                        <script>
+                                            $("#prod-items").css("height", "35em");
+                                        </script>
+                                        {% for product in cart %}
+                                        <div id="prod" class="w-100 container card bg-success-subtle item">
+                                            <div class="row align-items-center">
+                                                <div class="col-3">
+                                                    <img class="imgLittle" src="{{ product.img }}">
+                                                </div>
+                                                <div class="col-7">
+                                                    <a href="{% url 'productPage' product.pk %}"
+                                                       class="prod-link link-success"
+                                                       style="text-overflow: ellipsis; white-space: nowrap; text-decoration: none;">{{ product.name }}</a>
+                                                </div>
+                                                <div class="col-2">
+                                                    <small style="text-overflow: ellipsis; white-space: nowrap;">{{ product.quantity }} шт.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        <script>
+                                            $(".imgLittle").css("height", "7vh");
+                                            $(".imgLittle").css("width", "4vw");
+                                        </script>
+                                        <div id="end"></div>
+                                    </div>
+                                    {% else %}
+                                    <div id="empty">
+                                        <h3>
+                                            <span>
+                                                <span>В вашей корзине <br> пока пусто</span>
+                                            </span>
+                                        </h3>
+                                        <div>Тут появятся товары, которые вы закажете.</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'cart'%}">
+                                <button class="button-add btn btn-secondary me-0">Корзина - {{ totalPrice }}₽</button>
+                            </a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
